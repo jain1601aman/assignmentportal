@@ -37,9 +37,6 @@ var upload = multer({storage:assign});
 app.get('/',function(req,res){
     res.render('index');
 });
-app.get('/assign1',upload.single('Assign1'),function(req,res){
-    
-});
 app.post('/submitted',upload.any(),function(req,res,next){
     res.send('<html>file uploaded</html>')
 })
