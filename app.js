@@ -3,6 +3,7 @@ const bodyparser = require('body-parser')
 const app = express()
 const path = require('path')
 const multer = require('multer');
+var port = process.env.PORT || 7777;
 fs=require('fs-extra')
 app.use(bodyparser.urlencoded({extended:true}))
 app.use(express.static(__dirname + '/public'));
@@ -51,6 +52,6 @@ app.post('/submitted',upload.any(),function(req,res,next){
 
     res.render('submit')
 })
-app.listen(7777, () => {
+app.listen(port, () => {
     console.log('listening on 7777')
   })
