@@ -9,7 +9,7 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 var assign = multer.diskStorage({
-    destination:function(req,file,cb){
+    destination:function(req,file,cb,res){
 
             if(file.fieldname === "Assign1")
         {cb(null,'public/uploads/1');}
@@ -24,11 +24,21 @@ var assign = multer.diskStorage({
       
         
     },
-    filename: function(req,file,cb){
+    filename: function(req,file,cb,res){
         cb(null,file.originalname)
     }
 })
-var upload = multer({storage:assign});
+var upload = multer({storage:assign,fileFilter: (req, file, cb,res) => {
+    if (file.mimetype == "application/pdf") {
+      cb(null, true);
+    } else {
+        
+      cb(null, false);
+      return cb(new Error('Only .pdf format allowed!'));
+      
+      
+    }
+  }});
 
 
 
@@ -37,11 +47,9 @@ var upload = multer({storage:assign});
 app.get('/',function(req,res){
     res.render('index');
 });
-app.get('/assign1',upload.single('Assign1'),function(req,res){
-    
-});
 app.post('/submitted',upload.any(),function(req,res,next){
-    res.send('<html>file uploaded</html>')
+
+    res.render('submit')
 })
 app.listen(7777, () => {
     console.log('listening on 7777')
