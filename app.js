@@ -11,18 +11,91 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 var assign = multer.diskStorage({
     destination:function(req,file,cb,res){
-
-            if(file.fieldname === "Assign1")
-        {cb(null,'public/uploads/1');}
-        else if(file.fieldname==="Assign2")
-        {cb(null,'public/uploads/2');}
-        else if(file.fieldname==="Assign3")
-        {cb(null,'public/uploads/3');}
-        else if(file.fieldname==="Assign4")
-        {cb(null,'public/uploads/4');}
-        else if(file.fieldname==="Assign5")
-        {cb(null,'public/uploads/5');}
-      
+        var s = file.originalname;
+        if(s.includes("17I6") || s.includes("17i6") || s.includes("18I6") || s.includes("18i6") || s.includes("16I6") || s.includes("16i6"))
+        {
+            var st = s.toLowerCase();           
+            if(st.includes("assignment 1"))
+            {
+                var pt = 'public/uploads/1/' + file.originalname
+                fs.stat(pt,function(err,stat){
+                    if(err === null) {
+                    cb(null,'public/uploads/trash');
+                    } 
+                    else if(err.code === 'ENOENT') {
+                    cb(null,'public/uploads/1');
+                    } 
+                    else{
+                    cb(null,'public/uploads/trash');
+                    }
+                });
+            }
+            else if(st.includes("assignment 2"))
+            {
+                var pt = 'public/uploads/2/' + file.originalname
+                fs.stat(pt,function(err,stat){
+                    if(err === null) {
+                    cb(null,'public/uploads/trash');
+                    } 
+                    else if(err.code === 'ENOENT') {
+                    cb(null,'public/uploads/2');
+                    } 
+                    else{
+                    cb(null,'public/uploads/trash');
+                    }
+                });
+            }
+            else if(st.includes("assignment 3"))
+            {
+                var pt = 'public/uploads/3/' + file.originalname
+                fs.stat(pt,function(err,stat){
+                    if(err === null) {
+                    cb(null,'public/uploads/trash');
+                    } 
+                    else if(err.code === 'ENOENT') {
+                    cb(null,'public/uploads/3');
+                    } 
+                    else{
+                    cb(null,'public/uploads/trash');
+                    }
+                });
+            }
+            else if(st.includes("assignment 4"))
+            {
+                var pt = 'public/uploads/4/' + file.originalname
+                fs.stat(pt,function(err,stat){
+                    if(err === null) {
+                    cb(null,'public/uploads/trash');
+                    } 
+                    else if(err.code === 'ENOENT') {
+                    cb(null,'public/uploads/4');
+                    } 
+                    else{
+                    cb(null,'public/uploads/trash');
+                    }
+                });
+            }
+            else if(st.includes("assignment 5"))
+            {
+                var pt = 'public/uploads/2/' + file.originalname
+                fs.stat(pt,function(err,stat){
+                    if(err === null) {
+                    cb(null,'public/uploads/trash');
+                    } 
+                    else if(err.code === 'ENOENT') {
+                    cb(null,'public/uploads/5');
+                    } 
+                    else{
+                    cb(null,'public/uploads/trash');
+                    }
+                });
+            }
+            
+        }
+        else
+        {
+            cb(null,'public/uploads/trash');
+        }
         
     },
     filename: function(req,file,cb,res){
@@ -35,7 +108,7 @@ var upload = multer({storage:assign,fileFilter: (req, file, cb,res) => {
     } else {
         
       cb(null, false);
-      return cb(new Error('Only .pdf format allowed!'));
+      return cb((new Error('Only .pdf format allowed!')).message);
       
       
     }
@@ -48,7 +121,7 @@ var upload = multer({storage:assign,fileFilter: (req, file, cb,res) => {
 app.get('/',function(req,res){
     res.render('index');
 });
-app.post('/submitted',upload.any(),function(req,res,next){
+app.post('/submitted',upload.array('Assign',5),function(req,res,next){
 
     res.render('submit')
 })
