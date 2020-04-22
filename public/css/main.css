@@ -91,36 +91,9 @@ h6, .h6 {
 
 
 
-.float-left {
-  float: left; }
-
-.float-right {
-  float: right; }
-
-.text-italic {
-  font-style: italic; }
-
-.text-white {
-  color: #fff; }
-
-.text-black {
-  color: #000; }
-
 
 .relative {
   position: relative; }
-
-.overflow-hidden {
-  overflow: hidden; }
-
-.overlay {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0; }
-
-
 
 
 h1 {
